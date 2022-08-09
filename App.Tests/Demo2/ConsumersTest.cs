@@ -28,8 +28,7 @@ public class ConsumersTest
         await using var provider = new ServiceCollection()
             .AddMassTransitTestHarness(cfg =>
             {
-                cfg.AddConsumer<Consumer1>();
-                //cfg.AddConsumer<Consumer2>();
+                cfg.AddConsumer<Consumer11>();
             })
             .BuildServiceProvider(true);
 
@@ -37,36 +36,79 @@ public class ConsumersTest
         await harness.Start();
         
         var client = harness.GetRequestClient<Input1>();
-        var sampleInput = new Input1(1, "Hiep");
 
         // ACT
 
-        var response1 = await client.GetResponse<Output1>(sampleInput);
-        //var response2 = await client.GetResponse<Output2>(sampleInput);
+        var response1 = await client.GetResponse<Output1>(new Input1(1, "Hiep"));
+        var response2 = await client.GetResponse<Output2>(new Input1(2, "Nhu"));
         
         // ASSERT
         
-        _testOutputHelper.WriteLine($"Total Consumed = {harness.Consumed}");
         _testOutputHelper.WriteLine($"Total Consumed = {harness.Consumed.Count()}");
-        _testOutputHelper.WriteLine($"Total Sent (Output) = {harness.Sent.Count()}");
+        _testOutputHelper.WriteLine(ToString(harness.Consumed));
         
-        var consumer1Harness = harness.GetConsumerHarness<Consumer1>();
-        _testOutputHelper.WriteLine($"Consumer1. Total Consumed (Input+Output) = {consumer1Harness.Consumed.Count()}");
+        _testOutputHelper.WriteLine($"Total Sent = {harness.Sent.Count()}");
+        _testOutputHelper.WriteLine(ToString(harness.Sent));
+        
+        var consumer1Harness = harness.GetConsumerHarness<Consumer11>();
+        _testOutputHelper.WriteLine($"Consumer1: Consumed Count = {consumer1Harness.Consumed.Count()}");
+        _testOutputHelper.WriteLine(ToString(consumer1Harness.Consumed));
         
         _testOutputHelper.WriteLine($"response1 = {response1.Message}");
-        //_testOutputHelper.WriteLine($"response2 = {response2.Message}");
+        _testOutputHelper.WriteLine($"response2 = {response2.Message}");
     }
 
+    [Fact]
+    public async Task Consumer21_Call_Cosumer12()
+    {
+        // ARRANGE
+        await using var provider = new ServiceCollection()
+            .AddMassTransitTestHarness(cfg =>
+            {
+                cfg.AddConsumer<Consumer21>();
+                cfg.AddConsumer<Consumer12>();
+            })
+            .BuildServiceProvider(new ServiceProviderOptions() {ValidateScopes = true, ValidateOnBuild = true});
+
+        var harness = provider.GetRequiredService<ITestHarness>();
+        await harness.Start();
+        
+
+        // ACT
+
+        var client = harness.GetRequestClient<Input2>();
+        var response = await client.GetResponse<Output2>(new Input2(1, "Hiep"));
+        
+        // ASSERT
+        
+        _testOutputHelper.WriteLine($"response= {response.Message}");
+        
+        var consumer12Harness = harness.GetConsumerHarness<Consumer12>();
+        _testOutputHelper.WriteLine($"Consumer12: Consumed Count = {consumer12Harness.Consumed.Count()}");
+        _testOutputHelper.WriteLine(ToString(consumer12Harness.Consumed));
+        
+        var consumer21Harness = harness.GetConsumerHarness<Consumer12>();
+        _testOutputHelper.WriteLine($"Consumer21: Consumed Count = {consumer21Harness.Consumed.Count()}");
+        _testOutputHelper.WriteLine(ToString(consumer21Harness.Consumed));
+        
+        
+        _testOutputHelper.WriteLine($"Total Consumed = {harness.Consumed.Count()}");
+        _testOutputHelper.WriteLine(ToString(harness.Consumed));
+        
+        _testOutputHelper.WriteLine($"Total Sent = {harness.Sent.Count()}");
+        _testOutputHelper.WriteLine(ToString(harness.Sent));
+    }
+    
     public static string ToString(IReceivedMessageList list)
     {
         var ll = list.Select(x => x.MessageObject!=null);
         var messages = ll.Select(x => x.MessageObject);
-        return messages.Display().ToString();
+        return messages.Display().SeparatedByNewLine().ToString();
     }
     public static string ToString(ISentMessageList list)
     {
         var ll = list.Select(x => x.MessageObject!=null);
         var messages = ll.Select(x => x.MessageObject);
-        return messages.Display().ToString();
+        return messages.Display().SeparatedByNewLine().ToString();
     }
 }
