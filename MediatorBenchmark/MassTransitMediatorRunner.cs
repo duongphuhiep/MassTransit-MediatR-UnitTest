@@ -8,7 +8,6 @@ public class MtConsumer : IConsumer<SampleCommand>
 {
     public async Task Consume(ConsumeContext<SampleCommand> context)
     {
-        await Task.Run(() => { });
         await context.RespondAsync(new SampleResponse($"M-Response for {context.Message.Input}"));
     }
 }

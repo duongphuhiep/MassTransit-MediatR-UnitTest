@@ -6,10 +6,9 @@ namespace MediatorBenchmark;
 
 public class MeConsumer : IRequestHandler<SampleCommand, SampleResponse>
 {
-    public async Task<SampleResponse> Handle(SampleCommand request, CancellationToken cancellationToken)
+    public Task<SampleResponse> Handle(SampleCommand request, CancellationToken cancellationToken)
     {
-        await Task.Run(() => { });
-        return new SampleResponse($"R-Response for {request.Input}");
+        return Task.FromResult(new SampleResponse($"R-Response for {request.Input}"));
     }
 }
 

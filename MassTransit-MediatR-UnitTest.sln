@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moq.AutoMock.MassTransit", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerService1", "WorkerService1\WorkerService1.csproj", "{A7F497B9-59F6-49BB-9F9C-76C2F55FA05E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatorBenchmark", "MediatorBenchmark\MediatorBenchmark.csproj", "{3332C25A-6216-4593-8CEC-B4B970D88087}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{363CCE54-B421-449B-AAAE-814651B31AF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,13 @@ Global
 		{A7F497B9-59F6-49BB-9F9C-76C2F55FA05E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7F497B9-59F6-49BB-9F9C-76C2F55FA05E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7F497B9-59F6-49BB-9F9C-76C2F55FA05E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3332C25A-6216-4593-8CEC-B4B970D88087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3332C25A-6216-4593-8CEC-B4B970D88087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3332C25A-6216-4593-8CEC-B4B970D88087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3332C25A-6216-4593-8CEC-B4B970D88087}.Release|Any CPU.Build.0 = Release|Any CPU
+		{363CCE54-B421-449B-AAAE-814651B31AF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{363CCE54-B421-449B-AAAE-814651B31AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{363CCE54-B421-449B-AAAE-814651B31AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{363CCE54-B421-449B-AAAE-814651B31AF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
