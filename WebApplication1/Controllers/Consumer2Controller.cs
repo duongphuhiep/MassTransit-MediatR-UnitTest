@@ -5,19 +5,19 @@ namespace WebApplication1.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class WeatherForecastController : ControllerBase
+public class Consumer2Controller : ControllerBase
 {
     private readonly IRequestClient<Input2> _requestClient;
 
-    public WeatherForecastController(IRequestClient<Input2> requestClient)
+    public Consumer2Controller(IRequestClient<Input2> requestClient)
     {
         _requestClient = requestClient;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
+    [HttpGet(Name = "Consumer2")]
     public async Task<Output2> Get()
     {
-        var response = await _requestClient.GetResponse<Output2>(new Input2 {Info = "Ha"});
+        var response = await _requestClient.GetResponse<Output2>(new Input2 { Info = "Input2" });
         return response.Message;
     }
 }
