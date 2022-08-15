@@ -17,7 +17,9 @@ public class Consumer2Controller : ControllerBase
     [HttpGet(Name = "Consumer2")]
     public async Task<Output2> Get()
     {
+        using var tx = TransactionScopeFactory.CreateNew();
         var response = await _requestClient.GetResponse<Output2>(new Input2 { Info = "Input2" });
+        tx!.Complete();
         return response.Message;
     }
 }

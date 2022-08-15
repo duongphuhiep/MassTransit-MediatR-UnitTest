@@ -21,6 +21,8 @@ builder.Services.AddMediator(cfg =>
     cfg.AddRequestClient<Input2>();
 });
 
+builder.Services.AddDbContext<Context>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
