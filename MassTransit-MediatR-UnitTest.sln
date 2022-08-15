@@ -1,27 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "App\App.csproj", "{8EB93DF1-CEB9-4D42-A317-ADF141A20AD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "App\App.csproj", "{8EB93DF1-CEB9-4D42-A317-ADF141A20AD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Tests", "App.Tests\App.Tests.csproj", "{3C08719D-24E9-4B03-B705-8351E2DDC110}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Tests", "App.Tests\App.Tests.csproj", "{3C08719D-24E9-4B03-B705-8351E2DDC110}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moq.AutoMock.MassTransit", "Moq.AutoMock.MassTransit\Moq.AutoMock.MassTransit.csproj", "{F1D39CAF-4D5D-4600-95B9-2A6B7B636FA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moq.AutoMock.MassTransit", "Moq.AutoMock.MassTransit\Moq.AutoMock.MassTransit.csproj", "{F1D39CAF-4D5D-4600-95B9-2A6B7B636FA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerService1", "WorkerService1\WorkerService1.csproj", "{A7F497B9-59F6-49BB-9F9C-76C2F55FA05E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkerService1", "WorkerService1\WorkerService1.csproj", "{A7F497B9-59F6-49BB-9F9C-76C2F55FA05E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatorBenchmark", "MediatorBenchmark\MediatorBenchmark.csproj", "{3332C25A-6216-4593-8CEC-B4B970D88087}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatorBenchmark", "MediatorBenchmark\MediatorBenchmark.csproj", "{3332C25A-6216-4593-8CEC-B4B970D88087}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{363CCE54-B421-449B-AAAE-814651B31AF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{363CCE54-B421-449B-AAAE-814651B31AF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1.Tests", "WebApplication1.Tests\WebApplication1.Tests.csproj", "{27CDFBFC-2379-46B9-9610-E39ED2207EE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8EB93DF1-CEB9-4D42-A317-ADF141A20AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -48,5 +47,15 @@ Global
 		{363CCE54-B421-449B-AAAE-814651B31AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{363CCE54-B421-449B-AAAE-814651B31AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{363CCE54-B421-449B-AAAE-814651B31AF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27CDFBFC-2379-46B9-9610-E39ED2207EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27CDFBFC-2379-46B9-9610-E39ED2207EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27CDFBFC-2379-46B9-9610-E39ED2207EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27CDFBFC-2379-46B9-9610-E39ED2207EE0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD572CFF-2D55-4E0C-AC5A-157BCDF0FC97}
 	EndGlobalSection
 EndGlobal

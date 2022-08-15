@@ -16,12 +16,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMediator(cfg =>
 {
-    cfg.AddConsumers(typeof(Consumer12).Assembly);
+
+    cfg.AddConsumers(typeof(Consumer21).Assembly);
     cfg.AddRequestClient<Input1>();
     cfg.AddRequestClient<Input2>();
 });
 
-builder.Services.AddDbContext<Context>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IScopedSample1, ScopedSample1>();
+builder.Services.AddScoped<IScopedSample21, ScopedSample21>();
+builder.Services.AddScoped<IScopedSample22, ScopedSample22>();
 
 var app = builder.Build();
 
