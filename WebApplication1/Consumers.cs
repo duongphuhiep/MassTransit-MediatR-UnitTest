@@ -48,10 +48,12 @@ public class Consumer21 : IConsumer<Input2>
 
     public async Task Consume(ConsumeContext<Input2> context)
     {
+        throw new InvalidOperationException("Fu fu fu!");
         //get the response from Consumer12 or Consumer13 depend on who will responds first
-        var responseConsumer1 = await _requestClient1.GetResponse<Output1>(new Input1 { Info = "Input1" });
+        var responseConsumer1 = (await _requestClient1.GetResponse<Output1>(new Input1 { Info = "Input1" })).Message;
+        //var responseConsumer1 = new Output1 { Info = "Foo" };
 
-        var responseMsg = $"{_sampleScoped21.GetId()}/{_sampleScoped22.GetId()} From {context.Message.Info}, Consumer21 is called. {responseConsumer1.Message.Info}";
+        var responseMsg = $"{_sampleScoped21.GetId()}/{_sampleScoped22.GetId()} From {context.Message.Info}, Consumer21 is called. {responseConsumer1.Info}";
 
         DbConnection? dbConnection = _httpContextAccessor.HttpContext?.Items["CurrentDbConnection"] as DbConnection;
         if (dbConnection == null) throw new InvalidOperationException("database connection is not setup in the HttpContext");
@@ -61,5 +63,39 @@ public class Consumer21 : IConsumer<Input2>
         dbContext.SaveChanges();
 
         await context.RespondAsync(new Output2 { Info = responseMsg });
+    }
+}
+
+
+
+public class Consumer31 : IConsumer<Input3>
+{
+    private readonly ILogger<Consumer31> _logger;
+
+    public Consumer31(ILogger<Consumer31> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task Consume(ConsumeContext<Input3> context)
+    {
+        _logger.LogInformation("31");
+        await context.RespondAsync(new Output3 { Info = "Foo" });
+    }
+}
+
+public class Consumer32 : IConsumer<Input3>
+{
+    private readonly ILogger<Consumer32> _logger;
+
+    public Consumer32(ILogger<Consumer32> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task Consume(ConsumeContext<Input3> context)
+    {
+        _logger.LogInformation("32");
+        await context.RespondAsync(new Output3 { Info = "Foo" });
     }
 }

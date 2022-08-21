@@ -163,5 +163,13 @@ namespace WebApplication1.Tests
                 _testOutputHelper.WriteLine(ex.ToString());
             }
         }
+
+        [Theory]
+        [InlineData("negative case", -1)]
+        [InlineData("on s'en fou", 0)]
+        [InlineData("positive case", 1)]
+        public void PapaTest(string description, int value)
+        {
+        }
     }
 }

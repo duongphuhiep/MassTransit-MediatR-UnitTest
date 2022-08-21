@@ -1,0 +1,83 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+
+# We recommend you to keep these unchanged
+end_of_line = lf
+charset = utf-8
+#trim_trailing_whitespace = false
+#insert_final_newline = true
+
+[*.cs]
+
+# CC0001: You should use 'var' whenever possible.
+dotnet_diagnostic.CC0001.severity = silent
+
+# S125: Sections of code should not be commented out
+dotnet_diagnostic.S125.severity = silent
+
+# S4457: Parameter validation in "async"/"await" methods should be wrapped
+dotnet_diagnostic.S4457.severity = silent
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = suggestion
+
+# CA2007: Do not directly await a Task
+dotnet_diagnostic.CA2007.severity = silent
+
+# S101: Types should be named in PascalCase
+dotnet_diagnostic.S101.severity = silent
+
+# CS1570: XML comment has badly formed XML
+dotnet_diagnostic.CS1570.severity = silent
+
+# CC0097: You have missing/unexistent parameters in Xml Docs
+dotnet_diagnostic.CC0097.severity = silent
+
+# CC0105: You should use 'var' whenever possible.
+dotnet_diagnostic.CC0105.severity = silent
+
+# CC0021: Use nameof
+dotnet_diagnostic.CC0021.severity = suggestion
+
+# PH_P007: Unused Cancellation Token
+dotnet_diagnostic.PH_P007.severity = suggestion
+
+# PH_P009: Synchronous Dispose in Async Method
+dotnet_diagnostic.PH_P009.severity = suggestion
+
+# S3604: Member initializer values should not be redundant
+dotnet_diagnostic.S3604.severity = suggestion
+
+# S2699: Tests should include assertions
+dotnet_diagnostic.S2699.severity = suggestion
+
+# S2187: TestCases should contain tests
+dotnet_diagnostic.S2187.severity = suggestion
+
+# S2326: Unused type parameters should be removed
+dotnet_diagnostic.S2326.severity = suggestion
+
+# CD1605: The method must have a documentation header.
+dotnet_diagnostic.CD1607.severity = silent
+dotnet_diagnostic.CD1606.severity = silent
+dotnet_diagnostic.CD1605.severity = silent
+dotnet_diagnostic.CD1604.severity = silent
+dotnet_diagnostic.CD1603.severity = silent
+dotnet_diagnostic.CD1602.severity = silent
+dotnet_diagnostic.CD1601.severity = silent
+dotnet_diagnostic.CD1600.severity = silent
+
+# Default severity for analyzer diagnostics with category 'DocumentationHeader'
+dotnet_analyzer_diagnostic.category-DocumentationHeader.severity = silent
+
+
+# All files
+[*]
+guidelines = 120
+
+[*]
+# Named color format
+guidelines_style = 1px solid gray
