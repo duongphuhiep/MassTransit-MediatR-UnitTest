@@ -79,10 +79,11 @@ public class LogTryCatchConsumeFilter<TRequest> : IFilter<ConsumeContext<TReques
         {
             _logger.LogWarning(businessEx, "RESPONSE Business Error {ConversationId}", context.ConversationId);
             var errorResponse = TryBuildErrorResponse(businessEx);
-            if (errorResponse is not null)
+            if (errorResponse is null)
             {
-                await context.RespondAsync(errorResponse);
+                throw;
             }
+            await context.RespondAsync(errorResponse);
         }
         catch (Exception ex)
         {
