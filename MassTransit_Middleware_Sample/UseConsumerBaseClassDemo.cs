@@ -9,9 +9,6 @@ namespace Masstr.BaseClass;
 
 #region Generic codes
 
-public interface IRequest<out TResponse>
-{
-}
 public record BaseResponse
 {
     public string? ErrorMessage { get; init; }
@@ -25,7 +22,7 @@ public class BusinessException : Exception
 }
 
 public abstract class BaseRequestResponseConsumer<TRequest, TResponse> : IConsumer<TRequest>
-    where TRequest : class, IRequest<TResponse>
+    where TRequest : class
     where TResponse : BaseResponse, new()
 {
     private readonly ILogger<TRequest> _logger;
@@ -66,7 +63,7 @@ public abstract class BaseRequestResponseConsumer<TRequest, TResponse> : IConsum
 
 #endregion
 
-public record MyRequest : IRequest<MyResponse> { }
+public record MyRequest { }
 public record MyResponse : BaseResponse { }
 public interface ISomeDependentService { }
 
