@@ -9,7 +9,7 @@ namespace Masstr.BaseClass;
 
 #region Generic codes
 
-public interface IRequest<out TResponse> where TResponse : BaseResponse, new()
+public interface IRequest<out TResponse>
 {
 }
 public record BaseResponse
