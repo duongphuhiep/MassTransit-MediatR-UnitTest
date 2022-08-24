@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
 using Xunit;
@@ -170,6 +170,135 @@ namespace WebApplication1.Tests
         [InlineData("positive case", 1)]
         public void PapaTest(string description, int value)
         {
+        }
+
+        [Fact]
+        public async Task AttachTest_Change_Before_Attach_Is_Not_Count()
+        {
+            //ARRANGE: clean the database and insert a new entity1
+
+            var connection = new SqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            Input1History entity1;
+            using (var dbContext = new Context(connection))
+            {
+                await dbContext.Database.ExecuteSqlRawAsync("Delete Input1s");
+                var entry1 = await dbContext.Input1s.AddAsync(new Input1History { Input = "aa", Output = "bb" });
+                dbContext.SaveChanges();
+                entity1 = entry1.Entity;
+            }
+
+            Assert.True(entity1.Id > 0); //make sure the entity is saved in the database
+            Assert.Equal("bb", entity1.Output);
+
+            /*
+             * ACT: we have a entity1 object predefine 
+             * we change this object before Attach it to the dbContext 
+             * the changes will not counted and the SaveChanges won't do anything
+             */
+
+            entity1.Output = "cc"; // change before tracking
+            using (var dbContext = new Context(connection))
+            {
+                var entry1 = dbContext.Attach(entity1); //start tracking
+                dbContext.SaveChanges(); //no changes is detected
+            }
+
+            //ASSERT: expect nothing change in the database
+            using (var dbContext = new Context(connection))
+            {
+                var currentEntity = await dbContext.Input1s!.FirstAsync(i => i.Id == entity1.Id);
+                Assert.Equal("bb", currentEntity.Output);
+            }
+        }
+
+        [Fact]
+        public async Task AttachTest_Change_After_Attach_Is_Count()
+        {
+            //ARRANGE: clean the database and insert a new entity1
+
+            var connection = new SqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            Input1History entity1;
+            using (var dbContext = new Context(connection))
+            {
+                await dbContext.Database.ExecuteSqlRawAsync("Delete Input1s");
+                var entry1 = await dbContext.Input1s.AddAsync(new Input1History { Input = "aa", Output = "bb" });
+                dbContext.SaveChanges();
+                entity1 = entry1.Entity;
+            }
+
+            Assert.True(entity1.Id > 0); //make sure the entity is saved in the database
+            Assert.Equal("bb", entity1.Output);
+
+            /*
+             * ACT: we have a entity1 object predefine 
+             * we change this object after Attach it to the dbContext 
+             * the changes will be tracked and and the SaveChanges will update the database
+             */
+
+            using (var dbContext = new Context(connection))
+            {
+                var entry1 = dbContext.Attach(entity1); //start tracking
+                entity1.Output = "cc"; // change after tracking
+                dbContext.SaveChanges(); //changes is saved
+            }
+
+            //ASSERT: expect change in the database
+            using (var dbContext = new Context(connection))
+            {
+                var currentEntity = await dbContext.Input1s!.FirstAsync(i => i.Id == entity1.Id);
+                Assert.Equal("cc", currentEntity.Output);
+            }
+        }
+
+        [Fact]
+        public async Task AttachTest_Manually_Mark_Changes()
+        {
+            //ARRANGE: clean the database and insert a new entity1
+
+            var connection = new SqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            Input1History entity1;
+            using (var dbContext = new Context(connection))
+            {
+                await dbContext.Database.ExecuteSqlRawAsync("Delete Input1s");
+                var entry1 = await dbContext.Input1s.AddAsync(new Input1History { Input = "aa", Output = "bb" });
+                dbContext.SaveChanges();
+                entity1 = entry1.Entity;
+            }
+
+            Assert.True(entity1.Id > 0); //make sure the entity is saved in the database
+            Assert.Equal("bb", entity1.Output);
+
+            /*
+             * ACT: we have a entity1 object predefine 
+             * we change this object before Attach it to the dbContext 
+             * then we manually mark as changes to tell EF that the entity is changed
+             */
+
+            entity1.Output = "cc"; // change before tracking
+            entity1.Input = "xx"; // change before tracking
+            using (var dbContext = new Context(connection))
+            {
+                var entry1 = dbContext.Attach(entity1); //start tracking
+
+                //tell EF that the entity was changes but do not tell what member is changed it is
+                entry1.State = EntityState.Modified;
+
+                dbContext.SaveChanges(); //update the entity in the database
+            }
+
+            //ASSERT: expect changes in the database
+            using (var dbContext = new Context(connection))
+            {
+                var currentEntity = await dbContext.Input1s!.FirstAsync(i => i.Id == entity1.Id);
+                Assert.Equal("cc", currentEntity.Output);
+                Assert.Equal("xx", currentEntity.Input);
+            }
         }
     }
 }
