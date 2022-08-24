@@ -25,9 +25,9 @@ public abstract class BaseRequestResponseConsumer<TRequest, TResponse> : IConsum
     where TRequest : class
     where TResponse : BaseResponse, new()
 {
-    private readonly ILogger<TRequest> _logger;
+    private readonly ILogger _logger;
 
-    protected BaseRequestResponseConsumer(ILogger<TRequest> logger)
+    protected BaseRequestResponseConsumer(ILogger logger)
     {
         _logger = logger;
     }
@@ -75,6 +75,7 @@ public class MyConsumer : BaseRequestResponseConsumer<MyRequest, MyResponse>
 
     public override Task<MyResponse> Consume(MyRequest request, CancellationToken cancellationToken)
     {
+        //throw new Exception("Technical error");
         return Task.FromResult(new MyResponse());
     }
 }
@@ -91,6 +92,11 @@ public class UseConsumerBaseClassDemo
             .AddMediator(cfg =>
             {
                 cfg.AddConsumer<MyConsumer>();
+                cfg.ConfigureMediator((context, mcfg) =>
+                {
+                    //mcfg.UseMessageRetry(r => r.Immediate(2));
+                    mcfg.UseDelayedRedelivery(r => r.Intervals(TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(10), TimeSpan.FromMinutes(30)));
+                });
             })
             .AddLogging(cfg =>
             {
@@ -108,5 +114,6 @@ public class UseConsumerBaseClassDemo
         var client = mediator.CreateRequestClient<MyRequest>();
         var response = await client.GetResponse<MyResponse>(new MyRequest());
         _testOutput.WriteLine($"Sender side successfully got a response: {response.Message}");
+        await Task.Delay(30000);
     }
 }
